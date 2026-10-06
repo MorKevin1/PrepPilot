@@ -28,8 +28,12 @@ Database objects used here
 """
 
 from datetime import datetime, timezone
+from pathlib import Path
 
 from fastapi import Depends, FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy import func
 from sqlalchemy.orm import Session, selectinload
 
@@ -61,6 +65,20 @@ from schemas import (
 )
 
 app = FastAPI()
+
+STATIC_DIR = Path(__file__).resolve().parent / "static"
+
+# The React dev server (Vite) runs on a different origin than the API.
+# Browsers block that unless the API lists the frontend origin here.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    ],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Stored on practice_sessions.status. Completing a session is what unlocks /review.
 SESSION_IN_PROGRESS = "in_progress"
@@ -206,7 +224,13 @@ def session_to_review(session: PracticeSession, db: Session) -> SessionReview:
 
 @app.get("/")
 def root():
-    """Health check. Confirms the process is up; does not touch the database."""
+    """Serve the exam-list page (React in the browser, no npm/Vite required)."""
+    return FileResponse(STATIC_DIR / "index.html")
+
+
+@app.get("/health")
+def health():
+    """JSON health check used when you only want to know the API is up."""
     return {"message": "PrepPilot API is running"}
 
 
@@ -482,3 +506,7 @@ def review_session(session_id: int, db: Session = Depends(get_db)):
     if session.status != SESSION_COMPLETED:
         raise HTTPException(status_code=400, detail="Session is not completed")
     return session_to_review(session, db)
+
+
+# CSS and JSX files. Keep this after the API routes.
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
