@@ -64,6 +64,8 @@ build/
 .next/
 .vite/
 coverage/
+frontend/.certs/
+frontend/.npmrc
 
 # Misc
 *.pem
