@@ -6,13 +6,12 @@ import { getExamTopics } from "../api.js";
  *
  * Props
  * -----
- * exam   — the object App stored after the ExamList click (has id, name, …).
- * onBack — function from App that sets selectedExam back to null.
- *
- * This screen only appears after onSelectExam has run. Topics are not
- * clickable yet; the next step would start a practice session.
+ * exam          — the object App stored after the ExamList click.
+ * onBack        — function from App that sets selectedExam back to null.
+ * onSelectTopic — function from App (setSelectedTopic). A click passes the
+ *                 topic object up so App can switch to Quiz.
  */
-export default function TopicList({ exam, onBack }) {
+export default function TopicList({ exam, onBack, onSelectTopic }) {
   const [topics, setTopics] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -43,9 +42,15 @@ export default function TopicList({ exam, onBack }) {
       {!loading && !error && topics.length > 0 && (
         <ul className="exam-list">
           {topics.map((topic) => (
-            <li key={topic.id} className="exam-card">
-              <h2>{topic.name}</h2>
-              <p>{topic.description}</p>
+            <li key={topic.id}>
+              <button
+                type="button"
+                className="exam-card exam-card-button"
+                onClick={() => onSelectTopic(topic)}
+              >
+                <h2>{topic.name}</h2>
+                <p>{topic.description}</p>
+              </button>
             </li>
           ))}
         </ul>

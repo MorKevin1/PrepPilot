@@ -1,50 +1,51 @@
 import { useState } from "react";
 import ExamList from "./components/ExamList.jsx";
+import Quiz from "./components/Quiz.jsx";
 import TopicList from "./components/TopicList.jsx";
 
+/**
+ * App owns the two selections that decide which screen is visible:
+ *
+ *   no exam            → ExamList
+ *   exam, no topic     → TopicList
+ *   exam and topic     → Quiz (starts POST /sessions for that pair)
+ *
+ * onSelectTopic works like onSelectExam. TopicList does not start the
+ * session itself. It reports the clicked topic, and App renders Quiz.
+ * "All topics" clears only the topic, so the exam's topic list comes back.
+ */
 export default function App() {
   const [selectedExam, setSelectedExam] = useState(null);
+  const [selectedTopic, setSelectedTopic] = useState(null);
+
+  let subtitle = "Choose an exam to practice.";
+  if (selectedTopic) {
+    subtitle = "Answer the practice questions.";
+  } else if (selectedExam) {
+    subtitle = "Choose a topic to practice.";
+  }
 
   return (
     <main className="page">
       <header className="header">
         <h1>PrepPilot</h1>
-        <p>
-          {selectedExam
-            ? "Choose a topic to practice."
-            : "Choose an exam to practice."}
-        </p>
+        <p>{subtitle}</p>
       </header>
-      {selectedExam ? (
-        <TopicList exam={selectedExam} onBack={() => setSelectedExam(null)} />
+      {selectedExam && selectedTopic ? (
+        <Quiz
+          exam={selectedExam}
+          topic={selectedTopic}
+          onBack={() => setSelectedTopic(null)}
+        />
+      ) : selectedExam ? (
+        <TopicList
+          exam={selectedExam}
+          onBack={() => setSelectedExam(null)}
+          onSelectTopic={setSelectedTopic}
+        />
       ) : (
         <ExamList onSelectExam={setSelectedExam} />
       )}
     </main>
   );
 }
-/**
- * App is the parent. It owns "which exam is selected?" so the two child
- * screens can stay simple:
- *
- *   selectedExam === null  → show ExamList (the catalog)
- *   selectedExam === {id, name, ...}  → show TopicList for that exam
- *
- * onSelectExam flow (child → parent → other child)
- * -----------------------------------------------
- * 1. App renders <ExamList onSelectExam={setSelectedExam} />.
- *    That passes App's state setter into ExamList as a prop named onSelectExam.
- *    setSelectedExam and onSelectExam are the same function.
- *
- * 2. User clicks AWS SAA. ExamList runs onSelectExam(exam), which is
- *    setSelectedExam(exam). React re-renders App with selectedExam filled in.
- *
- * 3. The ternary below now renders TopicList and hands it that exam object.
- *    TopicList uses exam.id to call GET /exams/{id}/topics.
- *
- * 4. "All exams" calls onBack={() => setSelectedExam(null)}. State goes back
- *    to null and ExamList appears again.
- *
- * Why the function lives in App: ExamList must not hide itself. It only
- * reports "the user picked this exam." App decides what to show next.
- */
