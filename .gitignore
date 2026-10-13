@@ -59,6 +59,8 @@ ehthumbs.db
 
 # Frontend (when added)
 node_modules/
+frontend/.certs/
+frontend/.npmrc
 dist/
 build/
 .next/

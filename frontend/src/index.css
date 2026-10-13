@@ -1,0 +1,168 @@
+:root {
+  color: #1c1917;
+  background: #f5f5f4;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  line-height: 1.5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+}
+
+.header h1 {
+  margin: 0 0 0.25rem;
+}
+
+.header p {
+  margin: 0 0 1.5rem;
+  color: #57534e;
+}
+
+.exam-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.exam-card {
+  background: #fff;
+  border: 1px solid #e7e5e4;
+  border-radius: 12px;
+  padding: 1rem 1.15rem;
+}
+
+.exam-card-button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.exam-card-button:hover,
+.exam-card-button:focus-visible {
+  border-color: #a8a29e;
+  outline: none;
+}
+
+.back-button {
+  margin-bottom: 1rem;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid #d6d3d1;
+  border-radius: 8px;
+  background: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+
+.section-title {
+  margin: 0 0 0.25rem;
+  font-size: 1.25rem;
+}
+
+.section-copy {
+  margin: 0 0 1rem;
+  color: #57534e;
+}
+
+.exam-card h2 {
+  margin: 0 0 0.25rem;
+  font-size: 1.15rem;
+}
+
+.provider {
+  margin: 0 0 0.5rem;
+  color: #78716c;
+  font-size: 0.9rem;
+}
+
+.exam-card p:last-child {
+  margin: 0;
+}
+
+.status {
+  color: #57534e;
+}
+
+.status.error {
+  color: #b91c1c;
+}
+
+.choice-list {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.choice-button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  background: #fafaf9;
+  border: 1px solid #e7e5e4;
+  border-radius: 8px;
+  padding: 0.65rem 0.75rem;
+  cursor: pointer;
+}
+
+.choice-button:hover,
+.choice-button:focus-visible,
+.choice-button-picked {
+  border-color: #44403c;
+  background: #f5f5f4;
+  outline: none;
+}
+
+.quiz-nav {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.quiz-nav .back-button {
+  margin-bottom: 0;
+}
+
+.quiz-nav .back-button:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+
+.choice-result {
+  border: 1px solid #e7e5e4;
+  border-radius: 8px;
+  padding: 0.65rem 0.75rem;
+  background: #fafaf9;
+}
+
+.choice-correct {
+  border-color: #15803d;
+  background: #f0fdf4;
+}
+
+.choice-incorrect {
+  border-color: #b91c1c;
+  background: #fef2f2;
+}
+
+.explanation {
+  margin: 0.85rem 0 0;
+  color: #44403c;
+}
