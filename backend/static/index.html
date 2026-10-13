@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PrepPilot</title>
+    <link rel="stylesheet" href="/static/index.css" />
+    <!--
+      Loaded in the browser (Windows trusts your company cert).
+      This is a stand-in for Vite until npm can install React locally.
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root">
+      <p class="status">Loading PrepPilot…</p>
+    </div>
+    <script type="text/babel" src="/static/ExamList.jsx"></script>
+    <script type="text/babel" src="/static/TopicList.jsx"></script>
+    <script type="text/babel" src="/static/App.jsx"></script>
+    <script type="text/babel">
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>
